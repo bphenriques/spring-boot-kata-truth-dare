@@ -1,10 +1,20 @@
-package com.kata.truthordare.model
+package com.kata.truthordare.controller
 
-import org.springframework.web.bind.annotation.GetMapping
+import com.kata.truthordare.model.TruthDareChallenge
+import com.kata.truthordare.service.ChallengesService
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class TruthOrDareController {
+class TruthOrDareController(
+    val challengesService: ChallengesService
+) {
 
-    @GetMapping
+    @PostMapping("/truth-or-dare")
+    fun getTruth(@RequestBody challenge: TruthDareChallenge): ResponseEntity<Unit> {
+        challengesService.add(challenge)
+        return ResponseEntity.ok().build()
+    }
 }
