@@ -16,4 +16,9 @@ class ChallengesService(
         logger.info("Registering challenge $challenge")
         challengesRepository.save(challenge)
     }
+
+    fun getAll(): Set<TruthDareChallenge> {
+        logger.info("Listing challenges..")
+        return challengesRepository.findAll()
+    }
 }

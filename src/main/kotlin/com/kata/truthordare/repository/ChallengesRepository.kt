@@ -11,4 +11,6 @@ class ChallengesRepository {
     fun save(challenge: TruthDareChallenge) {
         existingChallenges.add(challenge)
     }
+
+    fun findAll(): Set<TruthDareChallenge> = existingChallenges
 }
