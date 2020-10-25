@@ -1,5 +1,6 @@
 package com.kata.truthordare.service
 
+import com.kata.truthordare.model.ChallengeType
 import com.kata.truthordare.model.TruthDareChallenge
 import com.kata.truthordare.repository.ChallengesRepository
 import org.slf4j.LoggerFactory
@@ -20,5 +21,10 @@ class ChallengesService(
     fun getAll(): Set<TruthDareChallenge> {
         logger.info("Listing challenges..")
         return challengesRepository.findAll()
+    }
+
+    fun get(type: ChallengeType): TruthDareChallenge? {
+        logger.info("Obtaining challenge (type=$type)")
+        return challengesRepository.findOneByType(type)
     }
 }

@@ -1,5 +1,6 @@
 package com.kata.truthordare.repository
 
+import com.kata.truthordare.model.ChallengeType
 import com.kata.truthordare.model.TruthDareChallenge
 import org.springframework.stereotype.Repository
 
@@ -13,4 +14,6 @@ class ChallengesRepository {
     }
 
     fun findAll(): Set<TruthDareChallenge> = existingChallenges
+
+    fun findOneByType(type: ChallengeType): TruthDareChallenge? = findAll().firstOrNull { it.type == type}
 }
