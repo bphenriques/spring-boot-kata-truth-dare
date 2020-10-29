@@ -1,9 +1,11 @@
 package com.kata.truthordare.gateway
 
+import com.kata.truthordare.configuration.TruthOrDareApiRestTemplateConfiguration
 import com.kata.truthordare.model.ChallengeType
 import com.kata.truthordare.model.TruthDareChallenge
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 
 @Component
+@ConditionalOnBean(TruthOrDareApiRestTemplateConfiguration::class)
 class TruthOrDareGateway(
     @Qualifier("truth-or-dare") private val restTemplate: RestTemplate
 ) {
