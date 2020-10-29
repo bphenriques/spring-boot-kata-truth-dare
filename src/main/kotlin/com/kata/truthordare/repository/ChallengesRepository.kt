@@ -1,19 +1,18 @@
 package com.kata.truthordare.repository
 
-import com.kata.truthordare.model.ChallengeType
-import com.kata.truthordare.model.TruthDareChallenge
+import com.kata.truthordare.model.jdbc.TruthDareChallengeRow
+import org.springframework.data.jdbc.repository.query.Query
+import org.springframework.data.repository.CrudRepository
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-class ChallengesRepository {
+interface ChallengesRepository : CrudRepository<TruthDareChallengeRow, Long> {
 
-    private val existingChallenges = mutableSetOf<TruthDareChallenge>()
-
-    fun save(challenge: TruthDareChallenge) {
-        existingChallenges.add(challenge)
-    }
-
-    fun findAll(): Set<TruthDareChallenge> = existingChallenges
-
-    fun findOneByType(type: ChallengeType): TruthDareChallenge? = findAll().firstOrNull { it.type == type}
+    @Query(
+        """
+        SELECT * FROM "truth_dare_challenges" WHERE type=:type LIMIT 1
+        """
+    )
+    fun findOneByType(@Param("type") type: TruthDareChallengeRow.Type): TruthDareChallengeRow?
 }

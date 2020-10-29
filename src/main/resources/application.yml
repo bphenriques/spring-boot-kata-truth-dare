@@ -1,1 +1,9 @@
 seed.enabled: false
+
+#
+# Not great! Do not use in PRD :)
+#
+# Initialize the `schema.sql` file. If you have access to the Database, then you can skip this *iff* you do it yourself.
+# It is not great as access to PRD database is not recommended, therefore please use e.g., flyway which is a more robust
+# solution.
+spring.datasource.initialization-mode: always
