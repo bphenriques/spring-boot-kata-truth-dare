@@ -1,0 +1,6 @@
+spring.profiles.active: test
+logging.level.com.talkdesk: debug
+
+---
+
+randommer.url: localhost:3000

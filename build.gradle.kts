@@ -23,6 +23,16 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
+
+	// Docs: http://wiremock.org/docs/getting-started/
+	// TODO: Versions should be centralized in a single place to avoid any conflict.
+	testImplementation("com.github.tomakehurst:wiremock-jre8:2.27.2")
+
+	// https://mockk.io/ is a native Kotlin solution with better support for co-routines.
+	// Let's use Mockito as it is the one you will find more often and the concepts are transversal.
+	// TODO: Versions should be centralized in a single place to avoid any conflict.
+	testImplementation("org.mockito:mockito-core")
+	testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
 }
 
 tasks.withType<Test> {
