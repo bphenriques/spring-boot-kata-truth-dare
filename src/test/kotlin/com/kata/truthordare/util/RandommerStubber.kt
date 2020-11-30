@@ -31,8 +31,10 @@ class RandommerStubber(
     @Value("\${randommer.url}") private val url: String
 ) : BeforeEachCallback, BeforeAllCallback {
 
-    private val mockRestServiceServer = MockRestServiceServer.createServer(restTemplate)
-
+    private val mockRestServiceServer = MockRestServiceServer
+        .bindTo(restTemplate)
+        .ignoreExpectOrder(true)
+        .build()
 
     fun stubFetchOk(times: Int, type: ChallengeType, text: String) {
         val randommerChallengeType = when (type) {
@@ -40,7 +42,44 @@ class RandommerStubber(
             ChallengeType.TRUTH -> RandommerGateway.RandommerTruthDareChallengeResponse.Type.TRUTH
         }
 
-        // TODO
+        mockRestServiceServer.expect(
+            ExpectedCount.times(times),
+            requestTo("$url/truth-dare-generator")
+        )
+            .andExpect(method(HttpMethod.POST))
+            .andExpect(content().string("category=friendly&type=$randommerChallengeType"))
+            .andRespond(
+                withSuccess()
+                    .headers(HttpHeaders().apply {
+                        contentType = MediaType.APPLICATION_JSON
+                    })
+                    .body(
+                        """
+                            {
+                                "id": 1,
+                                "category": "friendly",
+                                "type": "$randommerChallengeType",
+                                "text": "$text"
+                            }
+                        """.trimIndent()
+                    ))
+    }
+
+    fun stubFetchFailure(type: ChallengeType, status: HttpStatus) {
+        val randommerChallengeType = when (type) {
+            ChallengeType.DARE -> RandommerGateway.RandommerTruthDareChallengeResponse.Type.DARE
+            ChallengeType.TRUTH -> RandommerGateway.RandommerTruthDareChallengeResponse.Type.TRUTH
+        }
+
+        mockRestServiceServer.expect(
+            ExpectedCount.times(1),
+            requestTo("$url/truth-dare-generator")
+        )
+            .andExpect(method(HttpMethod.POST))
+            .andExpect(content().string("category=friendly&type=$randommerChallengeType"))
+            .andRespond(
+                withStatus(status)
+            )
     }
 
     fun verifyStubs() {

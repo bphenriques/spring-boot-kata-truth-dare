@@ -6,15 +6,11 @@ import com.kata.truthordare.util.RandommerStubber
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.api.extension.RegisterExtension
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.http.HttpStatus
-import java.lang.Exception
 
 @SpringBootTest
-class RandommerGatewayTest2 {
+class RandommerGatewayTest {
 
     @Autowired
     private lateinit var randommerStubber: RandommerStubber
@@ -30,8 +26,18 @@ class RandommerGatewayTest2 {
     @Test
     fun `getTruthDareChallenge - It contacts the service correctly`() {
         // Arrange
-        // Act
-        // Assert
+        randommerStubber.stubFetchOk(1, ChallengeType.TRUTH, "some-challenge")
+        val expectedChallenge = TruthDareChallenge(
+            "some-challenge",
+            ChallengeType.TRUTH
+        )
+
+        //Act
+        val result = subject.getTruthDareChallenge(ChallengeType.TRUTH)
+
+        //Assert
+        Assertions.assertEquals(expectedChallenge, result)
+        randommerStubber.verifyStubs()
     }
 
     @Test
