@@ -13,9 +13,10 @@ class ChallengesService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    fun add(challenge: TruthDareChallenge) {
+    fun add(challenge: TruthDareChallenge): TruthDareChallenge {
         logger.info("Registering challenge $challenge")
-        challengesRepository.save(challenge)
+        val savedChallenge = challengesRepository.save(challenge)
+        return savedChallenge
     }
 
     fun getAll(): Set<TruthDareChallenge> {

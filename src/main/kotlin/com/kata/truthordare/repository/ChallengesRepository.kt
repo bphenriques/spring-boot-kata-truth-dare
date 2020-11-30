@@ -9,8 +9,9 @@ class ChallengesRepository {
 
     private val existingChallenges = mutableSetOf<TruthDareChallenge>()
 
-    fun save(challenge: TruthDareChallenge) {
+    fun save(challenge: TruthDareChallenge): TruthDareChallenge {
         existingChallenges.add(challenge)
+        return challenge
     }
 
     fun findAll(): Set<TruthDareChallenge> = existingChallenges

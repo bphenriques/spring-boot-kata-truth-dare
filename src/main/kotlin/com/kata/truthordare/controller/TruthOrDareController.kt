@@ -18,9 +18,9 @@ class TruthOrDareController(
 ) {
 
     @PostMapping("/truth-or-dare")
-    fun getTruth(@RequestBody challenge: TruthDareChallenge): ResponseEntity<Unit> {
-        challengesService.add(challenge)
-        return ResponseEntity.ok().build()
+    fun addChallenge(@RequestBody challenge: TruthDareChallenge): ResponseEntity<TruthDareChallenge> {
+        val resultingChallenge = challengesService.add(challenge)
+        return ResponseEntity.ok(resultingChallenge)
     }
 
     /**
