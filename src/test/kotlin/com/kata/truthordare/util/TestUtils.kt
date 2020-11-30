@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions
 
 object TestUtils {
 
+    // DO NOT USE THE ObjectMapper bean
     val MAPPER = jacksonObjectMapper()
 
     fun assertEqualJson(s1: String, s2: String) {
