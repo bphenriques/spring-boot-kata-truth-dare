@@ -3,6 +3,7 @@ package com.kata.truthordare.controller
 import com.kata.truthordare.model.ChallengeType
 import com.kata.truthordare.model.TruthDareChallenge
 import com.kata.truthordare.service.ChallengesService
+import com.kata.truthordare.service.SeedService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,12 +13,22 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class TruthOrDareController(
-    val challengesService: ChallengesService
+    private val challengesService: ChallengesService,
+    private val seedService: SeedService
 ) {
 
     @PostMapping("/truth-or-dare")
     fun getTruth(@RequestBody challenge: TruthDareChallenge): ResponseEntity<Unit> {
         challengesService.add(challenge)
+        return ResponseEntity.ok().build()
+    }
+
+    /**
+     * Another alternative is to run this when the application launches. Not introducing new concepts for now.
+     */
+    @PostMapping("/truth-or-dare/populate")
+    fun populate(@RequestParam type: ChallengeType, @RequestParam number: Int): ResponseEntity<Unit> {
+        seedService.populate(type, number)
         return ResponseEntity.ok().build()
     }
 
